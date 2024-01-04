@@ -9,7 +9,18 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
+
+
 import { Link } from "react-router-dom";
 import Loader from "../../components/shared/Loader";
 
@@ -17,6 +28,14 @@ const SigninForm = () => {
   const [isLoading, SetisLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+  const toast = useToast()
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const initialRef = React.useRef(null)
+  const finalRef = React.useRef(null)
+
+
   return (
     <div className="max-w-[400px] flex flex-col items-center justify-center gap-[15px]">
       <Flex
@@ -65,10 +84,49 @@ const SigninForm = () => {
         <Checkbox size="sm" className="text-xs">
           Remember me
         </Checkbox>
-        <button className="text-xs text-primary hover:text-primary-hover font-medium">
+        <button className="text-xs text-primary hover:text-primary-hover font-medium" onClick={onOpen}>
           Forgot your password?
         </button>
       </Flex>
+
+      <Modal
+        initialFocusRef={initialRef}
+        finalFocusRef={finalRef}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Enter Your Email</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Email</FormLabel>
+              <Input ref={initialRef} placeholder='KhalidBaba.emine.ma' />
+            </FormControl>
+
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme='primary' className="bg-primary hover:bg-primary-hover" mr={3} 
+			onClick={() => {
+
+				onClose();
+	  
+				toast({
+				  title: 'Check Your Email Inbox',
+				  status: 'info',
+				  isClosable: true,
+				  duration: 2000,
+				});
+			  }}
+			>
+              Send
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <button className="text-sm">
         Don't have an account?{" "}
         <Link to="/sign-up">

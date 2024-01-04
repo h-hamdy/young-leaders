@@ -1,11 +1,13 @@
 import { Navigate, Outlet } from "react-router";
 import * as React from "react";
+import { useLocation } from 'react-router-dom';
+
+
 
 const AuthLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [isLoading, SetisLoading] = React.useState(true);
   const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow(!show);
+  const location = useLocation();
 
   return (
     <>
@@ -16,11 +18,19 @@ const AuthLayout = () => {
           <section className="flex flex-1 flex-col h-screen items-center justify-center">
 			<Outlet/>
           </section>
-          <img
-            src="/assets/images/um6pSignin.png"
-            alt="sign-inImg"
-            className="hidden lg:block h-screen w-1/2 object-cover bg-no-repeat"
-          />
+		  {
+			location.pathname === "/sign-in" ?
+				<img
+				src="/assets/images/um6pSignin.png"
+				alt="sign-inImg"
+				className="hidden lg:block h-screen w-1/2 object-cover bg-no-repeat"
+				/>
+				: <img
+				src="/assets/images/um6pSignup.png"
+				alt="sign-inImg"
+				className="hidden lg:block h-screen w-1/2 object-cover bg-no-repeat"
+				/>
+		  }
         </>
       )}
     </>
