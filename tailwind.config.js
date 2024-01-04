@@ -7,7 +7,10 @@ export default {
 	theme: {
 	  extend: {
 		colors: {
-			'primary' : '#EA3B15'
+			'primary' : '#EA3B15',
+			'primary-hover' : "#D02800",
+			'black-1': '#2A3342',
+			'gray-1': '#556987',
 		}
 	  },
 	},
