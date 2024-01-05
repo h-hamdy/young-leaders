@@ -1,8 +1,6 @@
-import { Navigate } from "react-router";
 import * as React from "react";
 import {
   Button,
-  Checkbox,
   Flex,
   FormControl,
   FormLabel,
@@ -25,11 +23,11 @@ const SignupForm = () => {
         className="justify-center items-center gap-2 pb-8"
       >
         <img src="/assets/images/Logo.png" className="w-[55px] pb-8"></img>
-        <h1 className="font-bold text-3xl sm:text-4xl text-black-1">
-          Sign in to your account
+        <h1 className="font-bold text-3xl sm:text-4xl sm:tracking-tighter text-black-1 text-center">
+          Join Young Leaders Now
         </h1>
-        <p className="tracking-tight sm:tracking-wider text-gray-1 text-sm sm:text:md">
-          Sign In to join the Yong leaders Comminuty
+        <p className="tracking-tight sm:tracking-wider text-gray-1 text-sm sm:text:md text-center">
+          Create An Account To Become a Young Leader
         </p>
       </Flex>
       <FormControl isRequired>
@@ -66,18 +64,10 @@ const SignupForm = () => {
           <div>Sign In</div>
         )}
       </Button>
-      <Button  variant="outline" className="w-full">
-		<img src="/assets/icons/Google.png" className="w-[20px] mx-2"></img>
-	  	Sign in with Google
+      <Button variant="outline" className="w-full">
+        <img src="/assets/icons/Google.png" className="w-[20px] mx-2"></img>
+        Sign in with Google
       </Button>
-      <Flex className="justify-between w-full">
-        <Checkbox size="sm" className="text-xs">
-          Remember me
-        </Checkbox>
-        {/* <button className="text-xs text-primary hover:text-primary-hover font-medium">
-          Forgot your password?
-        </button> */}
-      </Flex>
       <button className="text-sm">
         Already have an account?{" "}
         <Link to="/sign-in">

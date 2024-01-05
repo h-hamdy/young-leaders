@@ -1,4 +1,3 @@
-import { Navigate } from "react-router";
 import * as React from "react";
 import {
   Button,
@@ -9,32 +8,19 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
-
 
 import { Link } from "react-router-dom";
 import Loader from "../../components/shared/Loader";
+import EnterEmail from "../../components/Modal/EnterEmail";
 
 const SigninForm = () => {
   const [isLoading, SetisLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
-  const toast = useToast()
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const initialRef = React.useRef(null)
-  const finalRef = React.useRef(null)
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <div className="max-w-[400px] flex flex-col items-center justify-center gap-[15px]">
@@ -43,10 +29,10 @@ const SigninForm = () => {
         className="justify-center items-center gap-2 pb-8"
       >
         <img src="/assets/images/Logo.png" className="w-[55px] pb-8"></img>
-        <h1 className="font-bold text-3xl sm:text-4xl text-black-1">
+        <h1 className="font-bold text-3xl sm:text-4xl text-black-1 text-center">
           Sign in to your account
         </h1>
-        <p className="tracking-tight sm:tracking-wider text-gray-1 text-sm sm:text:md">
+        <p className="tracking-tight sm:tracking-wider text-gray-1 text-sm sm:text:md text-center">
           Sign In to join the Yong leaders Comminuty
         </p>
       </Flex>
@@ -84,49 +70,16 @@ const SigninForm = () => {
         <Checkbox size="sm" className="text-xs">
           Remember me
         </Checkbox>
-        <button className="text-xs text-primary hover:text-primary-hover font-medium" onClick={onOpen}>
+        <button
+          className="text-xs text-primary hover:text-primary-hover font-medium"
+          onClick={onOpen}
+        >
           Forgot your password?
         </button>
       </Flex>
 
-      <Modal
-        initialFocusRef={initialRef}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Enter Your Email</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl>
-              <FormLabel>Email</FormLabel>
-              <Input ref={initialRef} placeholder='KhalidBaba.emine.ma' />
-            </FormControl>
-
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='primary' className="bg-primary hover:bg-primary-hover" mr={3} 
-			onClick={() => {
-
-				onClose();
-	  
-				toast({
-				  title: 'Check Your Email Inbox',
-				  status: 'info',
-				  isClosable: true,
-				  duration: 2000,
-				});
-			  }}
-			>
-              Send
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      
+	  <EnterEmail isOpen={isOpen} onClose={onClose}/>
       <button className="text-sm">
         Don't have an account?{" "}
         <Link to="/sign-up">
