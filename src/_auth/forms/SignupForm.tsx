@@ -1,8 +1,12 @@
 import * as React from "react";
+import * as z from "zod";
+
 import {
   Button,
   Flex,
   FormControl,
+  FormErrorIcon,
+  FormErrorMessage,
   FormLabel,
   Input,
   InputGroup,
@@ -10,11 +14,28 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Loader from "../../components/shared/Loader";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SignUpValidation } from "../../lib/validation";
 
 const SignupForm = () => {
   const [isLoading, SetisLoading] = React.useState(false);
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
+
+  const form = useForm<z.infer<typeof SignUpValidation>>({
+    resolver: zodResolver(SignUpValidation),
+    defaultValues: {
+	  Name: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof SignUpValidation>) {
+	SetisLoading(!isLoading);
+    console.log(values);
+  }
 
   return (
     <div className="max-w-[400px] flex flex-col items-center justify-center gap-[15px]">
@@ -30,28 +51,52 @@ const SignupForm = () => {
           Create An Account To Become a Young Leader
         </p>
       </Flex>
-      <FormControl isRequired>
-        <FormLabel fontSize="sm">Name</FormLabel>
-        <Input type="username" name="title" />
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel fontSize="sm">Email</FormLabel>
-        <Input type="email" name="title" />
-      </FormControl>
-      <FormControl isRequired>
-        <FormLabel fontSize="sm">Password</FormLabel>
+	  <form
+	 	 noValidate
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full flex flex-col gap-[25px]"
+      >
 
-        <InputGroup size="md" className="focus:outline-none focus:border-black">
-          <Input pr="4.5rem" type={show ? "text" : "password"} />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="xs" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
+      <FormControl isRequired isInvalid={form.formState.errors.Name}>
+        <FormLabel fontSize="sm">Name</FormLabel>
+        <Input type="username" {...form.register("Name")}/>
+		<FormErrorMessage>
+            {form.formState.errors.Name?.message}
+          </FormErrorMessage>
       </FormControl>
+      <FormControl isRequired isInvalid={form.formState.errors.email}>
+        <FormLabel fontSize="sm">Email</FormLabel>
+        <Input type="email" {...form.register("email")}/>
+		<FormErrorMessage>
+            {form.formState.errors.email?.message}
+          </FormErrorMessage>
+      </FormControl>
+      <FormControl isRequired isInvalid={form.formState.errors.password}>
+          <FormLabel fontSize="sm">Password</FormLabel>
+
+          <InputGroup
+            size="md"
+            className="focus:outline-none focus:border-black"
+          >
+            <Input
+              pr="4.5rem"
+              type={show ? "text" : "password"}
+              {...form.register("password")}
+            />
+            <InputRightElement width="4.5rem">
+              <Button h="1.75rem" size="xs" onClick={handleClick}>
+                {show ? "Hide" : "Show"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+          <FormErrorMessage>
+            {form.formState.errors.password?.message}
+          </FormErrorMessage>
+        </FormControl>
       <Button
-        onClick={() => SetisLoading(!isLoading)}
+	  	type="submit"
+        // onClick={() => SetisLoading(!isLoading)}
+		isLoading={form.formState.isSubmitting}
         colorScheme="primary"
         className="bg-primary w-full transition-colors duration-100 hover:bg-primary-hover"
       >
@@ -64,6 +109,7 @@ const SignupForm = () => {
           <div>Sign In</div>
         )}
       </Button>
+	  </form>
       <Button variant="outline" className="w-full">
         <img src="/assets/icons/Google.png" className="w-[20px] mx-2"></img>
         Sign in with Google

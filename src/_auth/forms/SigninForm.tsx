@@ -35,10 +35,8 @@ const SigninForm = () => {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof SignInValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+	SetisLoading(!isLoading);
     console.log(values);
   }
 
@@ -57,6 +55,7 @@ const SigninForm = () => {
         </p>
       </Flex>
       <form
+	  	noValidate
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-[25px]"
       >
@@ -92,7 +91,7 @@ const SigninForm = () => {
         </FormControl>
         <Button
           type="submit"
-          onClick={() => SetisLoading(!isLoading)}
+        //   onClick={() => SetisLoading(!isLoading)}
           isLoading={form.formState.isSubmitting}
           colorScheme="primary"
           className="bg-primary w-full transition-colors duration-100 hover:bg-primary-hover"
